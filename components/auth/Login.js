@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import firebase from "firebase";
 
-export class Register extends Component {
+export class Login extends Component {
   constructor(props) {
     super(props);
 
@@ -15,7 +15,6 @@ export class Register extends Component {
 
   onSignUp() {
     const { email, password, name } = this.state;
-    console.log(email, password, name)
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -31,10 +30,6 @@ export class Register extends Component {
     return (
       <View>
         <TextInput
-          placeholder="name"
-          onChangeText={(name) => this.setState({ name })}
-        />
-        <TextInput
           placeholder="email"
           onChangeText={(email) => this.setState({ email })}
         />
@@ -44,10 +39,10 @@ export class Register extends Component {
           onChangeText={(password) => this.setState({ password })}
         />
 
-        <Button title="Submit" onPress={this.onSignUp()} />
+        <Button title="Sign in" onPress={this.onSignUp()} />
       </View>
     );
   }
 }
 
-export default Register;
+export default Login;
