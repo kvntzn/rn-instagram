@@ -1,21 +1,14 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput, Button } from "react-native";
 import firebase from "firebase";
 
-export class Register extends Component {
-  constructor(props) {
-    super(props);
+const Register = () => {
+  const [email, setemail] = useState("");
+  const [password, setpassword] = useState("");
+  const [name, setname] = useState("");
 
-    this.state = {
-      email: "",
-      password: "",
-      name: "",
-    };
-  }
-
-  onSignUp() {
-    const { email, password, name } = this.state;
-    console.log(email, password, name)
+  const onSignUp = () => {
+    console.log(email, password, name);
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -25,29 +18,24 @@ export class Register extends Component {
       .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
-  render() {
-    return (
-      <View>
-        <TextInput
-          placeholder="name"
-          onChangeText={(name) => this.setState({ name })}
-        />
-        <TextInput
-          placeholder="email"
-          onChangeText={(email) => this.setState({ email })}
-        />
-        <TextInput
-          placeholder="password"
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({ password })}
-        />
+  return (
+    <View style={{flex: 1, justifyContent: 'center'}}>
+      <TextInput placeholder="name" onChangeText={(name) => setname(name)} />
+      <TextInput
+        placeholder="email"
+        onChangeText={(email) => setemail(email)}
+      />
+      <TextInput
+        placeholder="password"
+        secureTextEntry={true}
+        onChangeText={(password) => setpassword(password)}
+      />
 
-        <Button title="Submit" onPress={this.onSignUp()} />
-      </View>
-    );
-  }
-}
+      <Button title="Submit" onPress={onSignUp} />
+    </View>
+  );
+};
 
 export default Register;
