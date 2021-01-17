@@ -29,7 +29,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
+import LoginScreen from './components/auth/Login';
 import MainScreen from "./components/Main";
+import AddScreen from "./components/main/Add";
 import { SafeAreaView } from "react-native";
 
 const Stack = createStackNavigator();
@@ -87,6 +89,12 @@ class App extends Component {
                   component={RegisterScreen}
                   options={{ headerShown: false }}
                 ></Stack.Screen>
+
+                <Stack.Screen
+                  name="Login"
+                  component={LoginScreen}
+                  options={{ headerShown: false }}
+                ></Stack.Screen>
               </Stack.Navigator>
             </NavigationContainer>
           </SafeAreaView>
@@ -95,7 +103,16 @@ class App extends Component {
     }
     return (
       <Provider store={store}>
-        <MainScreen />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Main">
+            <Stack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen name="Add" component={AddScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
