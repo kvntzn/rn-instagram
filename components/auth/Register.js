@@ -14,6 +14,15 @@ const Register = () => {
       .createUserWithEmailAndPassword(email, password)
       .then((result) => {
         console.log(result);
+
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(firebase.auth().currentUser.uid)
+          .set({
+            name,
+            email,
+          });
       })
       .catch((error) => {
         console.log(error);
@@ -21,7 +30,7 @@ const Register = () => {
   };
 
   return (
-    <View style={{flex: 1, justifyContent: 'center'}}>
+    <View style={{ flex: 1, justifyContent: "center" }}>
       <TextInput placeholder="name" onChangeText={(name) => setname(name)} />
       <TextInput
         placeholder="email"
