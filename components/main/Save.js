@@ -15,6 +15,7 @@ export default function Save(props) {
     const response = await fetch(uri);
     const blob = await response.blob();
 
+    
     const task = firebase
       .storage()
       .ref()
