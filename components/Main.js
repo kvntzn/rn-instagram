@@ -3,23 +3,23 @@ import { View, Text } from "react-native";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchUser } from "../redux/actions/index";
+import { fetchUser, fetchUserPosts } from "../redux/actions/index";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import FeedScreen from "./main/Feed";
 import ProfileScreen from "./main/Profile";
 
-
 const Tab = createMaterialBottomTabNavigator();
 
 const EmptyScreen = () => {
-  return (null);
-}
+  return null;
+};
 
 export class Main extends Component {
   componentDidMount() {
     this.props.fetchUser();
+    this.props.fetchUserPosts();
   }
   render() {
     return (
@@ -36,28 +36,27 @@ export class Main extends Component {
         <Tab.Screen
           name="MainAdd"
           component={EmptyScreen}
-          listeners={({
-            navigation
-          }) => ({
-            tabPress: event => {
+          listeners={({ navigation }) => ({
+            tabPress: (event) => {
               event.preventDefault();
-              navigation.navigate("Add")
-            }
+              navigation.navigate("Add");
+            },
           })}
           options={{
             tabBarIcon: ({ color, size }) => (
               <MaterialCommunityIcons name="plus-box" color={color} size={26} />
             ),
           }}
-        /><Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={26} />
-          ),
-        }}
-      />
+        />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color={color} size={26} />
+            ),
+          }}
+        />
       </Tab.Navigator>
     );
   }
@@ -68,6 +67,6 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchProps = (dispatch) =>
-  bindActionCreators({ fetchUser }, dispatch);
+  bindActionCreators({ fetchUser, fetchUserPosts }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchProps)(Main);
