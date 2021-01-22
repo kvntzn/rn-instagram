@@ -12,9 +12,12 @@ export const user = (state = initialState, action) => {
         ...state,
         currentUser: action.currentUser,
       };
-    case USER_POST_STATE_CHANGE: return {
+    case USER_POST_STATE_CHANGE:
+      return {
         ...state,
-        post: action.post
-    }
+        post: action.post,
+      };
+    default:
+      return state;
   }
 };
