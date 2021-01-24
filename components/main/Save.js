@@ -8,6 +8,7 @@ require("firebase/firebase-storage");
 
 export default function Save(props) {
   const image = props.route.params.image;
+  console.log(image);
   const [caption, setCaption] = useState("");
 
   const uploadImage = async () => {
@@ -15,7 +16,6 @@ export default function Save(props) {
     const response = await fetch(uri);
     const blob = await response.blob();
 
-    
     const task = firebase
       .storage()
       .ref()
@@ -28,18 +28,18 @@ export default function Save(props) {
       console.log(`transferred: ${snapshot.bytesTransferred}`);
     };
 
-    const taskCompleted = (snapshot) => {
-      snapshot.ref.getDownloadUrl().then((snapshot) => {
+    const taskCompleted = () => {
+      task.snapshot.ref.getDownloadURL().then((snapshot) => {
         savePostData(snapshot);
-        console.log(snapshot);
+        console.log("taskCompleted: ", snapshot);
       });
     };
 
     const taskError = (snapshot) => {
-      console.log(snapshot);
+      console.log("taskError: ", snapshot);
     };
 
-    task.on("state_changed", taskProgress, taskCompleted, taskError);
+    task.on("state_changed", taskProgress, taskError, taskCompleted);
   };
 
   const savePostData = (downloadURL) => {
@@ -53,7 +53,7 @@ export default function Save(props) {
         caption,
         creation: firebase.firestore.FieldValue.serverTimestamp(),
       })
-      .then(function () { 
+      .then(function () {
         props.navigation.popToTop();
       });
   };

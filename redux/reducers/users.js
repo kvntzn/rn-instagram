@@ -2,7 +2,7 @@ import { USER_POST_STATE_CHANGE, USER_STATE_CHANGE } from "../constants";
 
 const initialState = {
   currentUser: null,
-  post: [],
+  posts: [],
 };
 
 export const user = (state = initialState, action) => {
@@ -15,7 +15,7 @@ export const user = (state = initialState, action) => {
     case USER_POST_STATE_CHANGE:
       return {
         ...state,
-        post: action.post,
+        posts: action.posts,
       };
     default:
       return state;
