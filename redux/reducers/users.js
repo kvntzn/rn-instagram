@@ -1,27 +1,21 @@
-import { USER_POST_STATE_CHANGE, USER_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE } from "../constants";
+import { USERS_POST_STATE_CHANGE, USERS_DATA_STATE_CHANGE } from "../constants";
 
 const initialState = {
-  currentUser: null,
-  posts: [],
-  following: [],
+  users: [],
+  userLoaded: 0,
 };
 
-export const user = (state = initialState, action) => {
+export const users = (state = initialState, action) => {
   switch (action.type) {
-    case USER_STATE_CHANGE:
+    case USERS_DATA_STATE_CHANGE:
       return {
         ...state,
-        currentUser: action.currentUser,
+        users: [...state.users, action.user],
       };
-    case USER_POST_STATE_CHANGE:
+    case USERS_POST_STATE_CHANGE:
       return {
         ...state,
         posts: action.posts,
-      };
-    case USER_FOLLOWING_STATE_CHANGE:
-      return {
-        ...state,
-        following: action.following,
       };
     default:
       return state;

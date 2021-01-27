@@ -1,4 +1,8 @@
-import { USER_STATE_CHANGE, USER_POST_STATE_CHANGE, USER_FOLLOWING_STATE_CHANGE } from "../constants/index";
+import {
+  USER_STATE_CHANGE,
+  USER_POST_STATE_CHANGE,
+  USER_FOLLOWING_STATE_CHANGE,
+} from "../constants/index";
 import firebase from "firebase";
 
 export function fetchUser() {
@@ -48,11 +52,35 @@ export function fetchUserFollowing() {
       .collection("userFollowing")
       .onSnapshot((snapshot) => {
         let following = snapshot.docs.map((doc) => {
-          const id = doc.id
+          const id = doc.id;
           return id;
         });
         console.log(following);
         dispatch({ type: USER_FOLLOWING_STATE_CHANGE, following });
       });
+  };
+}
+
+export function fetchUserData(uid) {
+  return (dispatch, getState) => {
+    const found = getState().userState.users.some((el) => el.uid === uid);
+
+    if (!found) {
+      firebase
+      .firestore()
+      .collection("users")
+      .doc(uid)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          let user = snapshot.data();
+          user.uid = snapshot.id;
+
+          dispatch({ type: USERS_DATA_STATE_CHANGE, currentUser: snapshot.data() });
+        } else {
+          console.log("does not exist");
+        }
+      });
+    }
   };
 }
