@@ -16,6 +16,15 @@ export const users = (state = initialState, action) => {
       return {
         ...state,
         posts: action.posts,
+        usersLoaded: state.userLoaded + 1,
+        users: state.users.map((user) =>
+          user.uid === action.uid
+            ? {
+                ...user,
+                posts: action.posts,
+              }
+            : user
+        ),
       };
     default:
       return state;
