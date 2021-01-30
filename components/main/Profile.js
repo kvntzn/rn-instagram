@@ -10,8 +10,8 @@ const Profile = (props) => {
   const [following, setFollowing] = useState(false);
 
   useEffect(() => {
-    const { currentUser, posts, } = props;
-    console.log('Profile: ', props.route.params.uid);
+    const { currentUser, posts } = props;
+    console.log("Profile: ", props.route.params.uid);
 
     if (props.route.params.uid === firebase.auth().currentUser.uid) {
       setUser(currentUser);
@@ -77,6 +77,10 @@ const Profile = (props) => {
       .delete({});
   };
 
+  const onLogout = () => {
+    firebase.auth().signOut();
+  };
+
   if (user === null) {
     return <View />;
   }
@@ -95,7 +99,9 @@ const Profile = (props) => {
               <Button title="Follow" onPress={() => onFollow()} />
             )}
           </View>
-        ) : null}
+        ) : (
+          <Button title="Logout" onPress={() => onLogout()} />
+        )}
       </View>
 
       <View style={styles.containerGallery}>
